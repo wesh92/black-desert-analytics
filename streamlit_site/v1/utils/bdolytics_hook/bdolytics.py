@@ -3,9 +3,9 @@ from dataclasses import dataclass, field
 
 import pendulum
 import requests
-from configs.config import LOCALES, known_items
-from models.analytics import BDOlyticsAnalyticsModel
-from models.market import BDOlyticsMarketModel, BDOlyticsKnownItemModel
+from .configs.config import LOCALES, known_items
+from .models.analytics import BDOlyticsAnalyticsModel
+from .models.market import BDOlyticsMarketModel, BDOlyticsKnownItemModel
 from pendulum import DateTime
 
 
@@ -16,6 +16,8 @@ def _convert_to_epoch(date: DateTime = None) -> int:
 
 
 def _convert_from_epoch(epoch: int = None) -> DateTime:
+    if isinstance(epoch, str):
+        epoch = int(epoch)
     epoch = _convert_to_epoch() if epoch is None else epoch
     return pendulum.from_timestamp(epoch / 1000)
 
@@ -97,8 +99,8 @@ class BDOlyticsAnalyticsEndpoint:
         for loc in regions if regions is not None else LOCALES:
             analytics_data = self.get_analytics_data(
                 item_id=item_id,
-                epoch_start=_convert_to_epoch(epoch_start),
-                epoch_end=_convert_to_epoch(epoch_end),
+                epoch_start=_convert_to_epoch(epoch_start) if isinstance(epoch_start, DateTime) else epoch_start,
+                epoch_end=_convert_to_epoch(epoch_end) if isinstance(epoch_end, DateTime) else epoch_end,
                 region=loc,
             )
             for data in analytics_data:

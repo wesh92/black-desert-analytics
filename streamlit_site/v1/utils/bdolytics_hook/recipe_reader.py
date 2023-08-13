@@ -34,6 +34,3 @@ def recipe_reader(recipe_item_id: str = None, region: str = "na"):
         rare_proc = RareProc(**main_data["rareProc"])
         return {"normal_proc": normal_proc, "rare_proc": rare_proc, "ingredients": ingredients}
     return {"normal_proc": normal_proc, "ingredients": ingredients}
-
-
-print(recipe_reader(9201))
