@@ -15,6 +15,11 @@ def _convert_to_epoch(date: DateTime = None) -> int:
     return int(string_date[:13])
 
 
+def _convert_from_epoch(epoch: int = None) -> DateTime:
+    epoch = _convert_to_epoch() if epoch is None else epoch
+    return pendulum.from_timestamp(epoch / 1000)
+
+
 @dataclass
 class BDOlyticsAnalyticsEndpoint:
     def get_analytics_data(
@@ -48,7 +53,7 @@ class BDOlyticsAnalyticsEndpoint:
         querystring = {
             "start_date": epoch_start,
             "end_date": epoch_end,
-            "region": region,
+            "region": region.upper(),
             "enhancement_level": enhancement_level,
         }
         response = requests.request("GET", base_url, params=querystring)
@@ -119,6 +124,7 @@ class BDOlyticsMarketEndpoint:
     Returns:
         list[BDOlyticsMarketModel] | BDOlyticsMarketModel: A pydantic model or list of pydantic models.
     """
+
     region: str = "NA"
     endpoint: str = "market/central-market-data"
     url: str = field(init=False)
