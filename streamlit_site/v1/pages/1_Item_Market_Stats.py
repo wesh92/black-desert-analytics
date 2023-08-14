@@ -12,14 +12,23 @@ from utils.peak_hours import define_peak_hours, filter_for_times
 
 st.set_page_config(layout="wide")
 
+
 # Convert data to a DataFrame
-def prepare_data(item_id: int, regions: list = None) -> list[BDOlyticsAnalyticsEndpoint]:
+def prepare_data(
+    item_id: int, regions: list = None
+) -> list[BDOlyticsAnalyticsEndpoint]:
     endpoint = BDOlyticsAnalyticsEndpoint()
     return endpoint.fill__analytics_request(item_id=item_id, regions=regions)
 
 
-def create_chart(region: str = None, models: list[BDOlyticsAnalyticsEndpoint] = None) -> alt.Chart:
-    data_pd = pl.DataFrame._from_records([model.model_dump() for model in models]).to_pandas()
+def create_chart(
+    region: str = None,
+    models: list[BDOlyticsAnalyticsEndpoint] = None,
+    localized_tz: str = "UTC",
+) -> alt.Chart:
+    data_pd = pl.DataFrame._from_records(
+        [model.model_dump() for model in models]
+    ).to_pandas()
     # remove the item_id column
     data_pd = data_pd.drop(columns=["item_id"])
     data_pd = data_pd.melt("epoch_timestamp")
@@ -28,31 +37,37 @@ def create_chart(region: str = None, models: list[BDOlyticsAnalyticsEndpoint] = 
 
     peak_hours = define_peak_hours(regions=region)
     peak_hours_df = filter_for_times(models, peak_hours).to_pandas()
+    peak_hours_df["min_epoch"] = peak_hours_df["min_epoch"].dt.tz_localize(localized_tz)
+    peak_hours_df["max_epoch"] = peak_hours_df["max_epoch"].dt.tz_localize(localized_tz)
+    st.write(peak_hours_df)
 
-    areas = (alt.Chart(peak_hours_df)
-             .mark_rect(
-                 opacity=0.3,
-             )
-             .encode(
-                 x="min_epoch:T",
-                 x2="max_epoch:T",
-                 y=alt.value(0),
-                 y2=alt.value(300),
-                color=alt.value("red"),
-             ))
-    lines = (
-            alt.Chart()
-            .mark_line()
-            .encode(
-                x="epoch_timestamp:T",
-                y="value:Q",
-                color="variable:N",
-            )
-            .properties(height=200, width=1000)
+    areas = (
+        alt.Chart(peak_hours_df.reset_index())
+        .mark_rect(
+            opacity=0.3,
         )
+        .encode(
+            x=alt.X("min_epoch:T", title="Peak Hours", axis=alt.Axis(format="%H:%M")),
+            x2="max_epoch:T",
+            y=alt.value(0),
+            y2=alt.value(200),
+            color=alt.value("red"),
+        )
+    )
+    lines = (
+        alt.Chart()
+        .mark_line(
+            interpolate="step-after",
+        )
+        .encode(
+            x="epoch_timestamp:T",
+            y="value:Q",
+            color="variable:N",
+        )
+        .properties(height=200, width=1000)
+    )
 
-    nearest = alt.selection(
-        type="single",
+    nearest = alt.selection_point(
         nearest=True,
         on="mouseover",
         fields=["epoch_timestamp"],
@@ -66,7 +81,7 @@ def create_chart(region: str = None, models: list[BDOlyticsAnalyticsEndpoint] = 
             x="epoch_timestamp:T",
             opacity=alt.value(0),
             tooltip=[
-                alt.Tooltip("epoch_timestamp:T", format="%Y-%m-%d %H:%M:%S"),
+                alt.Tooltip("epoch_timestamp:T", format="%Y-%m-%d %H:%M:%S%Z"),
                 "value:Q",
             ],
         )
@@ -91,10 +106,10 @@ def create_chart(region: str = None, models: list[BDOlyticsAnalyticsEndpoint] = 
     )
 
     return (
-        alt.layer(areas, lines, selectors, points, text, rules)
+        alt.layer(lines, selectors, points, text, rules, areas)
         .facet(row="variable:N", data=data_pd)
         .properties(title="Price and Volume Over Time")
-        .resolve_scale(y="independent")
+        .resolve_scale(y="independent", x="shared")
         .configure_headerRow(
             titleColor="white",
             labelColor="white",
@@ -118,8 +133,25 @@ item_id = st.sidebar.number_input("Enter Item ID:", value=575)
 regions = st.sidebar.selectbox("Select Region:", [loc.upper() for loc in LOCALES])
 generate_button = st.sidebar.button("Generate Chart")
 
+timezones = {
+    "NA": "America/New_York",
+    "EU": "Europe/London",
+    "SA": "America/Sao_Paulo",
+    "SEA": "Asia/Singapore",
+    "TW": "Asia/Taipei",
+    "KR": "Asia/Seoul",
+    "RU": "Europe/Moscow",
+    "JP": "Asia/Tokyo",
+    "MENA": "Asia/Dubai",
+}
+
 if generate_button:
     st.sidebar.write("Generating chart for Item ID:", item_id)
 
     data_models = prepare_data(item_id, regions=[regions])
-    st.altair_chart(create_chart(region=regions, models=data_models), use_container_width=True)
+    st.altair_chart(
+        create_chart(
+            region=regions, models=data_models, localized_tz=timezones[regions]
+        ),
+        use_container_width=True,
+    )

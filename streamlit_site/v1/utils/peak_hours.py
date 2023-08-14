@@ -3,7 +3,10 @@ import polars as pl
 from utils.bdolytics_hook.bdolytics import _convert_from_epoch
 from utils.bdolytics_hook.models.analytics import BDOlyticsAnalyticsModel
 
-def define_peak_hours(regions: list[str] = None) -> list[tuple[pendulum.time, pendulum.time]]:
+
+def define_peak_hours(
+    regions: list[str] = None,
+) -> list[tuple[pendulum.time, pendulum.time]]:
     """Define the peak hours for the given region(s)."""
     if regions is None:
         regions = ["NA", "EU", "SA", "SEA", "TW", "KR", "RU", "JP", "MENA"]
@@ -30,7 +33,11 @@ def define_peak_hours(regions: list[str] = None) -> list[tuple[pendulum.time, pe
     # Return the peak hours for the given region(s)
     return [peak_hours[region.upper()] for region in regions]
 
-def filter_for_times(data: list[BDOlyticsAnalyticsModel], time_ranges: list[tuple[pendulum.time, pendulum.time]]) -> pl.DataFrame:
+
+def filter_for_times(
+    data: list[BDOlyticsAnalyticsModel],
+    time_ranges: list[tuple[pendulum.time, pendulum.time]],
+) -> pl.DataFrame:
     """Filter the data for the given time ranges and shape into desired format."""
     # Organize data into a dictionary with dates as keys
     date_to_epochs = {}
@@ -44,18 +51,24 @@ def filter_for_times(data: list[BDOlyticsAnalyticsModel], time_ranges: list[tupl
 
     # Calculate max and min epochs for each date within time ranges
     result_data = []
-    for date, epochs_with_time in date_to_epochs.items():
+    for date, epochs in date_to_epochs.items():
         valid_epochs = []
-        for epoch_timestamp, dt_time in epochs_with_time:
-            for start_time, end_time in time_ranges:
-                if start_time <= dt_time <= end_time:
-                    valid_epochs.append(epoch_timestamp)
-                    break  # Break once a valid time range is found
+        for epoch, dt_time in epochs:
+            for time_range in time_ranges:
+                if time_range[0] <= dt_time <= time_range[1]:
+                    valid_epochs.append(epoch)
+                    break
 
         if valid_epochs:
             max_epoch = max(valid_epochs)
             min_epoch = min(valid_epochs)
-            result_data.append({"date": date, "max_epoch": max_epoch, "min_epoch": min_epoch})
+            result_data.append(
+                {
+                    "date": date,
+                    "max_epoch": _convert_from_epoch(max_epoch),
+                    "min_epoch": _convert_from_epoch(min_epoch),
+                }
+            )
 
     # Create a Polars DataFrame from the result data
     return pl.DataFrame(result_data)

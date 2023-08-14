@@ -91,9 +91,9 @@ class BDOlyticsAnalyticsEndpoint:
                 item_id=1, epoch_start=1627776000000, epoch_end=1627776000000, regions=["na", "eu"]
                 )
         """
-        epoch_end = pendulum.now() if epoch_end is None else epoch_end
+        epoch_end = pendulum.now(tz="UTC") if epoch_end is None else epoch_end
         epoch_start = (
-            pendulum.now().subtract(days=7) if epoch_start is None else epoch_start
+            pendulum.now(tz="UTC").subtract(days=7) if epoch_start is None else epoch_start
         )
         analytics_models = []
         for loc in regions if regions is not None else LOCALES:
