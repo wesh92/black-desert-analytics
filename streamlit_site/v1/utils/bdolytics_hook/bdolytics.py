@@ -15,11 +15,11 @@ def _convert_to_epoch(date: DateTime = None) -> int:
     return int(string_date[:13])
 
 
-def _convert_from_epoch(epoch: int = None, timezone_convert: str = "UTC") -> DateTime:
+def _convert_from_epoch(epoch: int = None) -> DateTime:
     if isinstance(epoch, str):
         epoch = int(epoch)
     epoch = _convert_to_epoch() if epoch is None else epoch
-    return pendulum.from_timestamp(epoch / 1000, tz=timezone_convert)
+    return pendulum.from_timestamp(epoch / 1000)
 
 
 @dataclass

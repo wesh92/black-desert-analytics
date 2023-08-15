@@ -12,6 +12,17 @@ from utils.peak_hours import define_peak_hours, filter_for_times
 from utils.bdolytics_hook.bdolytics import _convert_from_epoch
 
 st.set_page_config(layout="wide")
+st.markdown(
+    """
+            🕰️ A note on Timezones.
+
+            Due to the way Altair and Vega (the charting provider here) handle timezone information,
+            you will notice that, no matter the region you select in the sidebar, the chart will always
+            display your localized timezone as the x-axis. This is known behavior and is not a bug.
+
+            While the Red "Peak Hour" bands are correct, the x axis is localized _to your timezone_.
+            """
+)
 
 
 # Convert data to a DataFrame
@@ -30,17 +41,21 @@ def create_chart(
     data_pd = pl.DataFrame._from_records(
         [model.model_dump() for model in models]
     ).to_pandas()
+    data_pd["epoch_timestamp"] = (
+        data_pd["epoch_timestamp"]
+        .apply(lambda x: _convert_from_epoch(x))
+        .dt.tz_convert(localized_tz)
+    )
     # remove the item_id column
     data_pd = data_pd.drop(columns=["item_id"])
     data_pd = data_pd.melt("epoch_timestamp")
-    st.write(data_pd)
 
     # Make a rectangle for peak hours
 
     peak_hours = define_peak_hours(regions=region)
     peak_hours_df = filter_for_times(models, peak_hours).to_pandas()
-    peak_hours_df["min_epoch"] = peak_hours_df["min_epoch"]
-    peak_hours_df["max_epoch"] = peak_hours_df["max_epoch"]
+    peak_hours_df["min_epoch"] = peak_hours_df["min_epoch"].dt.tz_localize(localized_tz)
+    peak_hours_df["max_epoch"] = peak_hours_df["max_epoch"].dt.tz_localize(localized_tz)
 
     areas = (
         alt.Chart(peak_hours_df.reset_index())
@@ -149,7 +164,29 @@ timezones = {
 if generate_button:
     st.sidebar.write("Generating chart for Item ID:", item_id)
 
+    col1, col2, col3 = st.columns(3)
+
     data_models = prepare_data(item_id, regions=[regions])
+
+    col1.metric(
+        "Current Price 1 Day Rolling Change",
+        data_models[0].model_dump()["price"],
+        data_models[0].model_dump()["price"] - data_models[8].model_dump()["price"],
+        help="1 Day Rolling Delta",
+    )
+    col2.metric(
+        "Current Stock 1 Day Rolling Change",
+        data_models[0].model_dump()["stock"],
+        data_models[0].model_dump()["stock"] - data_models[8].model_dump()["stock"],
+        help="1 Day Rolling Delta",
+    )
+    col3.metric(
+        "Current Volume 1 Day Rolling Change",
+        data_models[0].model_dump()["volume"],
+        data_models[0].model_dump()["volume"] - data_models[8].model_dump()["volume"],
+        help="1 Day Rolling Delta",
+    )
+
     st.altair_chart(
         create_chart(
             region=regions, models=data_models, localized_tz=timezones[regions]

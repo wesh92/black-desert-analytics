@@ -19,16 +19,16 @@ def define_peak_hours(
 
     # Define the peak hours for each region
     peak_hours = {
-        "NA": (pendulum.time(17, 0), pendulum.time(23, 0)),
+        "NA": (pendulum.time(15, 30), pendulum.time(23, 0)),
         "EU": (pendulum.time(17, 0), pendulum.time(23, 0)),
-        "SA": (pendulum.time(17, 0), pendulum.time(19, 0)),
-        "SEA": (pendulum.time(15, 0), pendulum.time(17, 0)),
-        "TW": (pendulum.time(13, 0), pendulum.time(15, 0)),
-        "KR": (pendulum.time(11, 0), pendulum.time(13, 0)),
-        "RU": (pendulum.time(9, 0), pendulum.time(11, 0)),
-        "JP": (pendulum.time(7, 0), pendulum.time(9, 0)),
-        "MENA": (pendulum.time(5, 0), pendulum.time(7, 0)),
-    }
+        "SA": (pendulum.time(17, 0), pendulum.time(23, 0)),
+        "SEA": (pendulum.time(15, 0), pendulum.time(23, 0)),
+        "TW": (pendulum.time(15, 0), pendulum.time(23, 0)),
+        "KR": (pendulum.time(15, 0), pendulum.time(23, 0)),
+        "RU": (pendulum.time(15, 0), pendulum.time(23, 0)),
+        "JP": (pendulum.time(18, 0), pendulum.time(22, 0)),
+        "MENA": (pendulum.time(15, 0), pendulum.time(23, 0)),
+    } # Best guesses?
 
     # Return the peak hours for the given region(s)
     return [peak_hours[region.upper()] for region in regions]
@@ -37,14 +37,13 @@ def define_peak_hours(
 def filter_for_times(
     data: list[BDOlyticsAnalyticsModel],
     time_ranges: list[tuple[pendulum.time, pendulum.time]],
-    timezone: str = "UTC",
 ) -> pl.DataFrame:
     """Filter the data for the given time ranges and shape into desired format."""
     # Organize data into a dictionary with dates as keys
     date_to_epochs = {}
     for item in data:
-        dt_time = _convert_from_epoch(item.epoch_timestamp, timezone).time()
-        date = _convert_from_epoch(item.epoch_timestamp, timezone).date()
+        dt_time = _convert_from_epoch(item.epoch_timestamp).time()
+        date = _convert_from_epoch(item.epoch_timestamp).date()
         if date in date_to_epochs:
             date_to_epochs[date].append((item.epoch_timestamp, dt_time))
         else:
@@ -66,8 +65,8 @@ def filter_for_times(
             result_data.append(
                 {
                     "date": date,
-                    "max_epoch": max_epoch,
-                    "min_epoch": min_epoch,
+                    "max_epoch": _convert_from_epoch(max_epoch),
+                    "min_epoch": _convert_from_epoch(min_epoch),
                 }
             )
 
