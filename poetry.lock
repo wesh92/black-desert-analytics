@@ -253,17 +253,6 @@ files = [
 ]
 
 [[package]]
-name = "decorator"
-version = "5.1.1"
-description = "Decorators for Humans"
-optional = false
-python-versions = ">=3.5"
-files = [
-    {file = "decorator-5.1.1-py3-none-any.whl", hash = "sha256:b8c3f85900b9dc423225913c5aace94729fe1fa9763b38939a95226f02d37186"},
-    {file = "decorator-5.1.1.tar.gz", hash = "sha256:637996211036b6385ef91435e4fae22989472f9d571faba8927ba8253acbc330"},
-]
-
-[[package]]
 name = "duckdb"
 version = "0.8.1"
 description = "DuckDB embedded database"
@@ -951,17 +940,17 @@ test = ["appdirs (==1.4.4)", "covdefaults (>=2.3)", "pytest (>=7.4)", "pytest-co
 
 [[package]]
 name = "polars"
-version = "0.18.13"
+version = "0.18.14"
 description = "Blazingly fast DataFrame library"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "polars-0.18.13-cp38-abi3-macosx_10_7_x86_64.whl", hash = "sha256:d71167aea2968d7f354f2553a56369684b66dca48efb7dc0963fee7041bfc267"},
-    {file = "polars-0.18.13-cp38-abi3-macosx_11_0_arm64.whl", hash = "sha256:eaa55c2bfab114718f9605d3149d58d7f92f95533da1e23559994b7a12f9b3b2"},
-    {file = "polars-0.18.13-cp38-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:543d136666b8be18f679587b48bdc45b4541f332a9050f0ee90449cbf3d01a35"},
-    {file = "polars-0.18.13-cp38-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:d052e18686c8a9b9a68c8360ad90e53886990460dc65aeb8f72d4c54859d398f"},
-    {file = "polars-0.18.13-cp38-abi3-win_amd64.whl", hash = "sha256:4b340a193144b2f5276b9c3c538784da80d9aca28ad5f27b7c183cdc292876bc"},
-    {file = "polars-0.18.13.tar.gz", hash = "sha256:b00d1c7700969c47f3202c5be54d074d99df51acb51943dc4b60cdcf759940fd"},
+    {file = "polars-0.18.14-cp38-abi3-macosx_10_7_x86_64.whl", hash = "sha256:47dcf649a9cf8d3152d086a772cfb6202a81b1ac1d98e62dc83d1504bb81013a"},
+    {file = "polars-0.18.14-cp38-abi3-macosx_11_0_arm64.whl", hash = "sha256:0d2c5c0b26d5abfb87ac931ef23515646ae8074ca5a5273a408c86ea7887511e"},
+    {file = "polars-0.18.14-cp38-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:b50bfab638a7da85f242c4653d2fc9a5439256d571f5fc0a007241521b111473"},
+    {file = "polars-0.18.14-cp38-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:8da787972ec3216edaa21f9fcf80c7db021a8e3b54e9a134bdead5a0c426c9c7"},
+    {file = "polars-0.18.14-cp38-abi3-win_amd64.whl", hash = "sha256:18c1b44fd7bb9339e5f9fa158ad89b1c5132ef145b4d69667ada45dd26a6e9a8"},
+    {file = "polars-0.18.14.tar.gz", hash = "sha256:6fd6a453813bf724ed7b62142658c93970dca04fe6a469d03c4c91e75efbae0d"},
 ]
 
 [package.extras]
@@ -1605,13 +1594,13 @@ sqlalchemy = ">=1.0.0"
 
 [[package]]
 name = "sqlglot"
-version = "17.11.0"
+version = "17.14.1"
 description = "An easily customizable SQL parser and transpiler"
 optional = false
 python-versions = "*"
 files = [
-    {file = "sqlglot-17.11.0-py3-none-any.whl", hash = "sha256:22f4053c7d745011ca906ed55c9fc3f7d49d9604cb4bf2a124be1147417bb48e"},
-    {file = "sqlglot-17.11.0.tar.gz", hash = "sha256:28a922a05274f03969632ee1a1e37d57fe6a2da30d8ff14090f42e567d30863d"},
+    {file = "sqlglot-17.14.1-py3-none-any.whl", hash = "sha256:621bd88f4c7a6e9f06ca7e2714f8f18716207962a738024972948b01b3804c41"},
+    {file = "sqlglot-17.14.1.tar.gz", hash = "sha256:768e6eecc8c2ddd05726b56b7caf6be5ca01b1721886d2e6b4a7327e52b074a8"},
 ]
 
 [package.extras]
@@ -1659,13 +1648,13 @@ snowflake = ["snowflake-snowpark-python"]
 
 [[package]]
 name = "tenacity"
-version = "8.2.2"
+version = "8.2.3"
 description = "Retry code until it succeeds"
 optional = false
-python-versions = ">=3.6"
+python-versions = ">=3.7"
 files = [
-    {file = "tenacity-8.2.2-py3-none-any.whl", hash = "sha256:2f277afb21b851637e8f52e6a613ff08734c347dc19ade928e519d7d2d8569b0"},
-    {file = "tenacity-8.2.2.tar.gz", hash = "sha256:43af037822bd0029025877f3b2d97cc4d7bb0c2991000a3d59d71517c5c969e0"},
+    {file = "tenacity-8.2.3-py3-none-any.whl", hash = "sha256:ce510e327a630c9e1beaf17d42e6ffacc88185044ad85cf74c0a8887c6a0f88c"},
+    {file = "tenacity-8.2.3.tar.gz", hash = "sha256:5398ef0d78e63f40007c1fb4c0bff96e1911394d2fa8d194f77619c05ff6cc8a"},
 ]
 
 [package.extras]
@@ -1695,22 +1684,22 @@ files = [
 
 [[package]]
 name = "tornado"
-version = "6.3.2"
+version = "6.3.3"
 description = "Tornado is a Python web framework and asynchronous networking library, originally developed at FriendFeed."
 optional = false
 python-versions = ">= 3.8"
 files = [
-    {file = "tornado-6.3.2-cp38-abi3-macosx_10_9_universal2.whl", hash = "sha256:c367ab6c0393d71171123ca5515c61ff62fe09024fa6bf299cd1339dc9456829"},
-    {file = "tornado-6.3.2-cp38-abi3-macosx_10_9_x86_64.whl", hash = "sha256:b46a6ab20f5c7c1cb949c72c1994a4585d2eaa0be4853f50a03b5031e964fc7c"},
-    {file = "tornado-6.3.2-cp38-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:c2de14066c4a38b4ecbbcd55c5cc4b5340eb04f1c5e81da7451ef555859c833f"},
-    {file = "tornado-6.3.2-cp38-abi3-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:05615096845cf50a895026f749195bf0b10b8909f9be672f50b0fe69cba368e4"},
-    {file = "tornado-6.3.2-cp38-abi3-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:5b17b1cf5f8354efa3d37c6e28fdfd9c1c1e5122f2cb56dac121ac61baa47cbe"},
-    {file = "tornado-6.3.2-cp38-abi3-musllinux_1_1_aarch64.whl", hash = "sha256:29e71c847a35f6e10ca3b5c2990a52ce38b233019d8e858b755ea6ce4dcdd19d"},
-    {file = "tornado-6.3.2-cp38-abi3-musllinux_1_1_i686.whl", hash = "sha256:834ae7540ad3a83199a8da8f9f2d383e3c3d5130a328889e4cc991acc81e87a0"},
-    {file = "tornado-6.3.2-cp38-abi3-musllinux_1_1_x86_64.whl", hash = "sha256:6a0848f1aea0d196a7c4f6772197cbe2abc4266f836b0aac76947872cd29b411"},
-    {file = "tornado-6.3.2-cp38-abi3-win32.whl", hash = "sha256:7efcbcc30b7c654eb6a8c9c9da787a851c18f8ccd4a5a3a95b05c7accfa068d2"},
-    {file = "tornado-6.3.2-cp38-abi3-win_amd64.whl", hash = "sha256:0c325e66c8123c606eea33084976c832aa4e766b7dff8aedd7587ea44a604cdf"},
-    {file = "tornado-6.3.2.tar.gz", hash = "sha256:4b927c4f19b71e627b13f3db2324e4ae660527143f9e1f2e2fb404f3a187e2ba"},
+    {file = "tornado-6.3.3-cp38-abi3-macosx_10_9_universal2.whl", hash = "sha256:502fba735c84450974fec147340016ad928d29f1e91f49be168c0a4c18181e1d"},
+    {file = "tornado-6.3.3-cp38-abi3-macosx_10_9_x86_64.whl", hash = "sha256:805d507b1f588320c26f7f097108eb4023bbaa984d63176d1652e184ba24270a"},
+    {file = "tornado-6.3.3-cp38-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:1bd19ca6c16882e4d37368e0152f99c099bad93e0950ce55e71daed74045908f"},
+    {file = "tornado-6.3.3-cp38-abi3-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:7ac51f42808cca9b3613f51ffe2a965c8525cb1b00b7b2d56828b8045354f76a"},
+    {file = "tornado-6.3.3-cp38-abi3-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:71a8db65160a3c55d61839b7302a9a400074c9c753040455494e2af74e2501f2"},
+    {file = "tornado-6.3.3-cp38-abi3-musllinux_1_1_aarch64.whl", hash = "sha256:ceb917a50cd35882b57600709dd5421a418c29ddc852da8bcdab1f0db33406b0"},
+    {file = "tornado-6.3.3-cp38-abi3-musllinux_1_1_i686.whl", hash = "sha256:7d01abc57ea0dbb51ddfed477dfe22719d376119844e33c661d873bf9c0e4a16"},
+    {file = "tornado-6.3.3-cp38-abi3-musllinux_1_1_x86_64.whl", hash = "sha256:9dc4444c0defcd3929d5c1eb5706cbe1b116e762ff3e0deca8b715d14bf6ec17"},
+    {file = "tornado-6.3.3-cp38-abi3-win32.whl", hash = "sha256:65ceca9500383fbdf33a98c0087cb975b2ef3bfb874cb35b8de8740cf7f41bd3"},
+    {file = "tornado-6.3.3-cp38-abi3-win_amd64.whl", hash = "sha256:22d3c2fa10b5793da13c807e6fc38ff49a4f6e1e3868b0a6f4164768bb8e20f5"},
+    {file = "tornado-6.3.3.tar.gz", hash = "sha256:e7d8db41c0181c80d76c982aacc442c0783a2c54d6400fe028954201a2e032fe"},
 ]
 
 [[package]]
@@ -1792,19 +1781,24 @@ zstd = ["zstandard (>=0.18.0)"]
 
 [[package]]
 name = "validators"
-version = "0.20.0"
-description = "Python Data Validation for Humans™."
+version = "0.21.2"
+description = "Python Data Validation for Humans™"
 optional = false
-python-versions = ">=3.4"
+python-versions = ">=3.8"
 files = [
-    {file = "validators-0.20.0.tar.gz", hash = "sha256:24148ce4e64100a2d5e267233e23e7afeb55316b47d30faae7eb6e7292bc226a"},
+    {file = "validators-0.21.2-py3-none-any.whl", hash = "sha256:6ad95131005a9d4c734a69dd4ef08cf66961e61222e60da25a9b5137cecd6fd4"},
+    {file = "validators-0.21.2.tar.gz", hash = "sha256:002ba1552076535176824e43149c18c06f6b611bc8b597ddbcf8770bcf5f9f5c"},
 ]
 
-[package.dependencies]
-decorator = ">=3.4.0"
-
 [package.extras]
-test = ["flake8 (>=2.4.0)", "isort (>=4.2.2)", "pytest (>=2.2.3)"]
+docs-offline = ["myst-parser (>=2.0.0)", "pypandoc-binary (>=1.11)", "sphinx (>=7.1.1)"]
+docs-online = ["mkdocs (>=1.5.2)", "mkdocs-material (>=9.1.21)", "mkdocstrings[python] (>=0.22.0)", "pyaml (>=23.7.0)"]
+hooks = ["pre-commit (>=3.3.3)"]
+runner = ["tox (>=4.6.4)"]
+sast = ["bandit[toml] (>=1.7.5)"]
+testing = ["pytest (>=7.4.0)"]
+tooling = ["black (>=23.7.0)", "pyright (>=1.1.320)", "ruff (>=0.0.280)"]
+tooling-extras = ["pyaml (>=23.7.0)", "pypandoc-binary (>=1.11)", "pytest (>=7.4.0)"]
 
 [[package]]
 name = "watchdog"
