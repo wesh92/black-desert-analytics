@@ -9,6 +9,7 @@ import streamlit as st
 from utils.bdolytics_hook.bdolytics import BDOlyticsAnalyticsEndpoint
 from utils.bdolytics_hook.configs.config import LOCALES
 from utils.peak_hours import define_peak_hours, filter_for_times
+from utils.bdolytics_hook.bdolytics import _convert_from_epoch
 
 st.set_page_config(layout="wide")
 
@@ -32,14 +33,14 @@ def create_chart(
     # remove the item_id column
     data_pd = data_pd.drop(columns=["item_id"])
     data_pd = data_pd.melt("epoch_timestamp")
+    st.write(data_pd)
 
     # Make a rectangle for peak hours
 
     peak_hours = define_peak_hours(regions=region)
     peak_hours_df = filter_for_times(models, peak_hours).to_pandas()
-    peak_hours_df["min_epoch"] = peak_hours_df["min_epoch"].dt.tz_localize(localized_tz)
-    peak_hours_df["max_epoch"] = peak_hours_df["max_epoch"].dt.tz_localize(localized_tz)
-    st.write(peak_hours_df)
+    peak_hours_df["min_epoch"] = peak_hours_df["min_epoch"]
+    peak_hours_df["max_epoch"] = peak_hours_df["max_epoch"]
 
     areas = (
         alt.Chart(peak_hours_df.reset_index())

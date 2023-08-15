@@ -20,7 +20,7 @@ def define_peak_hours(
     # Define the peak hours for each region
     peak_hours = {
         "NA": (pendulum.time(17, 0), pendulum.time(23, 0)),
-        "EU": (pendulum.time(19, 0), pendulum.time(21, 0)),
+        "EU": (pendulum.time(17, 0), pendulum.time(23, 0)),
         "SA": (pendulum.time(17, 0), pendulum.time(19, 0)),
         "SEA": (pendulum.time(15, 0), pendulum.time(17, 0)),
         "TW": (pendulum.time(13, 0), pendulum.time(15, 0)),
@@ -37,13 +37,14 @@ def define_peak_hours(
 def filter_for_times(
     data: list[BDOlyticsAnalyticsModel],
     time_ranges: list[tuple[pendulum.time, pendulum.time]],
+    timezone: str = "UTC",
 ) -> pl.DataFrame:
     """Filter the data for the given time ranges and shape into desired format."""
     # Organize data into a dictionary with dates as keys
     date_to_epochs = {}
     for item in data:
-        dt_time = _convert_from_epoch(item.epoch_timestamp).time()
-        date = _convert_from_epoch(item.epoch_timestamp).date()
+        dt_time = _convert_from_epoch(item.epoch_timestamp, timezone).time()
+        date = _convert_from_epoch(item.epoch_timestamp, timezone).date()
         if date in date_to_epochs:
             date_to_epochs[date].append((item.epoch_timestamp, dt_time))
         else:
@@ -65,8 +66,8 @@ def filter_for_times(
             result_data.append(
                 {
                     "date": date,
-                    "max_epoch": _convert_from_epoch(max_epoch),
-                    "min_epoch": _convert_from_epoch(min_epoch),
+                    "max_epoch": max_epoch,
+                    "min_epoch": min_epoch,
                 }
             )
 
