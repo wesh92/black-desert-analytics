@@ -6,10 +6,11 @@ sys.path.append(str(pathlib.Path(__file__).parent.parent.absolute()))
 import altair as alt
 import polars as pl
 import streamlit as st
-from utils.bdolytics_hook.bdolytics import BDOlyticsAnalyticsEndpoint
+from pages.mappings.map_item_data import item_info_column_config
+from utils.bdolytics_hook.bdolytics import BDOlyticsAnalyticsEndpoint, _convert_from_epoch
 from utils.bdolytics_hook.configs.config import LOCALES
 from utils.peak_hours import define_peak_hours, filter_for_times
-from utils.bdolytics_hook.bdolytics import _convert_from_epoch
+from utils.pearl_abyss_hook.pa_base_item_info import ItemData
 
 st.set_page_config(layout="wide")
 st.markdown(
@@ -164,8 +165,11 @@ timezones = {
 if generate_button:
     st.sidebar.write("Generating chart for Item ID:", item_id)
 
-    col1, col2, col3 = st.columns(3)
-
+    col1, col2, col3, col4 = st.columns(4)
+    
+    with st.spinner("Loading Item Data..."):
+        base_item_info = ItemData("25").get_base_item_data().filter(pl.col("mainKey") == item_id).to_pandas()
+    st.dataframe(base_item_info, hide_index=True, use_container_width=True, column_config=item_info_column_config)
     data_models = prepare_data(item_id, regions=[regions])
 
     col1.metric(

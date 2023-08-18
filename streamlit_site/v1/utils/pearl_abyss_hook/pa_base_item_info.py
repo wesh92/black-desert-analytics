@@ -3,10 +3,10 @@ from logging import error, info, warning
 
 import polars as pl
 import requests
-from configs.market_config import MARKET_CATEGORIES
-from configs.secrets_cookies import cookies, request_token
-from models.base_item_info_model import BaseItemInfoModel
-from polars.exceptions import ColumnNotFoundError
+from .configs.market_config import MARKET_CATEGORIES
+from .configs.secrets_cookies import cookies, request_token
+from .models.base_item_info_model import BaseItemInfoModel
+from polars.exceptions import SchemaFieldNotFoundError
 
 
 @dataclass
@@ -96,7 +96,7 @@ class ItemData:
                         )
                         .drop(["sumCount", "minPrice"])
                     )
-                except ColumnNotFoundError:
+                except SchemaFieldNotFoundError:
                     error(response.json())
                     item_info_df = pl.from_records(
                         response.json()["marketList"]
