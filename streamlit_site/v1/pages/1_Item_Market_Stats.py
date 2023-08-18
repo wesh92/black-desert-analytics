@@ -169,19 +169,19 @@ if generate_button:
     data_models = prepare_data(item_id, regions=[regions])
 
     col1.metric(
-        "Current Price 1 Day Rolling Change",
+        "Current Price w/ 1 Day Rolling Change",
         data_models[0].model_dump()["price"],
         data_models[0].model_dump()["price"] - data_models[8].model_dump()["price"],
         help="1 Day Rolling Delta",
     )
     col2.metric(
-        "Current Stock 1 Day Rolling Change",
+        "Current Stock w/ 1 Day Rolling Change",
         data_models[0].model_dump()["stock"],
         data_models[0].model_dump()["stock"] - data_models[8].model_dump()["stock"],
         help="1 Day Rolling Delta",
     )
     col3.metric(
-        "Current Volume 1 Day Rolling Change",
+        "Current Volume w/ 1 Day Rolling Change",
         data_models[0].model_dump()["volume"],
         data_models[0].model_dump()["volume"] - data_models[8].model_dump()["volume"],
         help="1 Day Rolling Delta",
