@@ -2,9 +2,9 @@ from dataclasses import dataclass
 from logging import log
 
 import requests
-from configs.market_config import LOCALES, MarketEndpoint, market_url_structure
-from models.market_sub_list_model import MarketSubListModel
-from unpacker import unpack
+from .configs.market_config import LOCALES, MarketEndpoint, market_url_structure
+from .models.market_sub_list_model import MarketSubListModel
+from .unpacker import unpack
 
 @dataclass
 class MarketData:
@@ -64,5 +64,3 @@ class MarketData:
             parsed_listings.append(MarketSubListModel(**model_data))
 
         return parsed_listings
-
-print(MarketData(item_id=6031, region="na", endpoint_name="GET_WORLD_MARKET_SUB_LIST").parse_response())
